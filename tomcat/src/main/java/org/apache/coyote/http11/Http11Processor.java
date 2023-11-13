@@ -1,14 +1,11 @@
 package org.apache.coyote.http11;
 
 import nextstep.jwp.Response.Response;
-import nextstep.jwp.Response.ResponseBody;
-import nextstep.jwp.Response.ResponseHeader;
 import nextstep.jwp.exception.UncheckedServletException;
 import nextstep.jwp.request.Request;
 import nextstep.jwp.util.ParsingUtil;
 import nextstep.jwp.util.ResourceFinder;
 import org.apache.coyote.Processor;
-import org.apache.util.HttpResponseCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.*;
