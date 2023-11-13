@@ -1,7 +1,7 @@
 package nextstep.jwp.Response;
 
 public class ResponseHeader {
-    private final String HTTP_VERSION = "http/1.1";
+    private final String HTTP_VERSION = "HTTP/1.1";
     private String responseCode;
     private String responseStatus;
     private String contentType;
@@ -40,7 +40,7 @@ public class ResponseHeader {
     public String toString() {
         String header = HTTP_VERSION + " " + responseCode + " " + responseStatus + "\r\n" +
                 "Content-Type: " + contentType + "\r\n" +
-                "Content-Length: " + contentLength + " \r\n";
+                "Content-Length: " + contentLength + "\r\n";
 
         if (location != null && !location.isEmpty()) {
             header += "Location: " + location + "\r\n";
