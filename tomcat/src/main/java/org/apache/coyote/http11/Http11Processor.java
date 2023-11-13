@@ -37,24 +37,9 @@ public class Http11Processor implements Runnable, Processor {
     public void process(final Socket connection) {
         try (final var inputStream = connection.getInputStream();
              final var outputStream = connection.getOutputStream()) {
-
             Request request = parsingUtil.parseRequest(inputStream);
 
-            Response response;
-
-            if(request.getRequestHeader().getPath().contains(".")) {
-                ResourceFinder resourceFinder = new ResourceFinder();
-                ResponseBody responseBody = new ResponseBody(resourceFinder.getResource(request.getRequestHeader().getPath()));
-                ResponseHeader responseHeader = new ResponseHeader(String.valueOf(HttpResponseCode.OK.getCode()),
-                        HttpResponseCode.OK.getReasonPhrase(),
-                        resourceFinder.getContentType(resourceFinder.getFileExtension(request.getRequestHeader().getPath())),
-                        responseBody.getLength());
-                response = new Response(responseHeader, responseBody);
-                log.info(response.toString());
-            } else {
-                response = controllerMapper.findController(request);
-                log.info(response.toString());
-            }
+            Response response = controllerMapper.findController(request);
 
             outputStream.write(response.toString().getBytes());
             outputStream.flush();
