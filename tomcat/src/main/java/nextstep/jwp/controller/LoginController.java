@@ -32,24 +32,27 @@ public class LoginController {
 
                     if(loginService.login(queryParameters.get("account"), queryParameters.get("password"))) {
                         // login 성공
-                        responseBody.setFileContent(resourceFinder.getResource("/index.html")); // todo: 리다이렉션으로 바꿀 것
+                        responseBody.setFileContent("");
 
-                        responseHeader.setResponseCode(HttpResponseCode.FOUND.toString());
+                        responseHeader.setResponseCode(String.valueOf(HttpResponseCode.FOUND.getCode()));
                         responseHeader.setResponseStatus(HttpResponseCode.FOUND.getReasonPhrase());
                         responseHeader.setContentType(resourceFinder.getContentType(resourceFinder.getFileExtension("/index.html")));
                         responseHeader.setContentLength(responseBody.getLength());
                         responseHeader.setLocation("/index.html");
+
+                        return new Response(responseHeader, responseBody);
                     } else {
                         // login 실패
-                        responseBody.setFileContent(resourceFinder.getResource("/401.html")); // todo: 리다이렉션으로 바꿀 것
+                        responseBody.setFileContent("");
 
-                        responseHeader.setResponseCode(HttpResponseCode.UNAUTHORIZED.toString());
+                        responseHeader.setResponseCode(String.valueOf(HttpResponseCode.UNAUTHORIZED.getCode()));
                         responseHeader.setResponseStatus(HttpResponseCode.UNAUTHORIZED.getReasonPhrase());
                         responseHeader.setContentType(resourceFinder.getContentType(resourceFinder.getFileExtension("/401.html")));
                         responseHeader.setContentLength(responseBody.getLength());
-                        responseHeader.setLocation("/404.html");
+                        responseHeader.setLocation("/401.html");
+
+                        return new Response(responseHeader, responseBody);
                     }
-                    break;
 
                 case "GET":
                     // url: /login
@@ -70,6 +73,7 @@ public class LoginController {
     }
 
     public Map<String, String> parseQueryParameters(String query) throws UnsupportedEncodingException {
+        query = query.replace("\r\n", "");
         String[] params = query.split("&");
 
         Map<String, String> queryParameters = new HashMap<>();
