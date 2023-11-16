@@ -23,7 +23,8 @@ public class ControllerMapper {
             return loginController.handleRequest(request);
 
         } else if(path.startsWith("/register")) {
-            return new Response();
+            RegisterController registerController = new RegisterController();
+            return registerController.handleRequest(request);
 
         } else if(path.startsWith("/css")) {
             CssController cssController = new CssController();
